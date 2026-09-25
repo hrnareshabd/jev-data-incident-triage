@@ -1,0 +1,46 @@
+[
+  {
+    "incident_id": "INC-001",
+    "pipeline": "customer_360_daily",
+    "environment": "production",
+    "error_message": "customer_id expected BIGINT but received STRING after an upstream CRM deployment.",
+    "failed_rows": 18420,
+    "total_rows": 250000,
+    "retry_count": 3,
+    "elapsed_minutes": 48,
+    "sla_minutes": 30,
+    "business_impact": [
+      "Power BI executive dashboard has not refreshed.",
+      "Customer segmentation pipeline is blocked."
+    ]
+  },
+  {
+    "incident_id": "INC-002",
+    "pipeline": "azure_orders_ingestion",
+    "environment": "production",
+    "error_message": "ADLS Gen2 returned HTTP 403 after the service-principal secret was rotated.",
+    "failed_rows": 0,
+    "total_rows": 0,
+    "retry_count": 5,
+    "elapsed_minutes": 22,
+    "sla_minutes": 20,
+    "business_impact": [
+      "New orders are not available in the lakehouse.",
+      "Finance reconciliation is waiting for the dataset."
+    ]
+  },
+  {
+    "incident_id": "INC-003",
+    "pipeline": "sales_fact_quality",
+    "environment": "production",
+    "error_message": "Duplicate order_id values increased from 0.02% to 8.7% in the latest partition.",
+    "failed_rows": 21750,
+    "total_rows": 250000,
+    "retry_count": 1,
+    "elapsed_minutes": 12,
+    "sla_minutes": 30,
+    "business_impact": [
+      "The sales dashboard is quarantined pending validation."
+    ]
+  }
+]
