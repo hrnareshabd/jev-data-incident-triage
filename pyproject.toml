@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "jev-data-incident-triage"
+version = "0.1.0"
+description = "Typed AI judgments for routing data-pipeline incidents with Jev"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "Naresh H R" }]
+dependencies = [
+  "python-dotenv>=1.0,<2",
+  "typesafe-sdk>=0.1,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8,<9",
+  "ruff>=0.12,<1",
+]
+
+[project.scripts]
+jev-triage = "jev_incident_triage.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/jev_incident_triage"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = ["work"]
