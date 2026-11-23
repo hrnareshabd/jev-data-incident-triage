@@ -100,6 +100,27 @@ Installed command:
 jev-triage data/sample_incidents.json
 ```
 
+## Batch input validation
+
+The CLI validates the **entire file before making any model calls**. Invalid input
+exits with status `2`, writes a concise error to stderr, and emits no result JSON.
+Record errors identify the one-based position without echoing incident evidence.
+
+- The file must be a JSON array of objects with exactly the fields in
+  `data/sample_incidents.json`; missing and unknown fields are rejected.
+- IDs, pipeline, environment, and error message must be non-empty strings.
+- Row counts, retries, elapsed minutes, and SLA minutes must be non-negative
+  integers; booleans, numeric strings, and fractional values are rejected.
+- Failed rows cannot exceed total rows. Zero totals are valid only with zero failures.
+- Business impact must be a list of non-empty strings; an empty list is allowed.
+- Incident IDs must be unique within a batch. IDs are compared exactly, without
+  trimming or case normalization. An empty batch returns `[]` without inference.
+
+For example, an invalid second record produces `Invalid incident batch: incident 2: ...`.
+These checks also protect direct `Incident` construction. Validation does not make
+remote inference transactional: API failures after validation can still occur after
+earlier calls have completed. The command does not automatically retry those calls.
+
 ## Test
 
 ```bash
